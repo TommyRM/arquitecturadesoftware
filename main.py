@@ -3,6 +3,11 @@ import sys
 import getpass
 from clienteregistro import registro
 from clientelogin import login
+from clienteverfacultades import facultades
+from clientevermenus import vermenusfacultad
+from clientedetallemenu import verdetallemenu
+from clientesoporte import soporte
+from clienteresena import crearresena
 def main():
     opcion=0
     while(opcion!=9):
@@ -11,6 +16,7 @@ def main():
         print("2.Iniciar sesión\n")
         print("9.Salir\n")
         opcion=int(input("Seleccione una opción: "))
+
         if opcion==1:
             correo=str(input('Ingrese correo: '))
             clave=getpass.getpass('Ingresa clave: ')
@@ -18,6 +24,7 @@ def main():
             print('\n')
 
         if opcion==2:
+            print("\n")
             correo=str(input('Ingrese correo: '))
             clave=getpass.getpass('Ingresa clave: ')
             log=login(correo,clave)
@@ -32,15 +39,20 @@ def main():
                     opcioncliente=int(input("ingrese una opcion: \n"))
                     if opcioncliente==1:
 
-                        verfacultades()
+                        facultades()
 
-                        facultad=int(input("Seleccione una facultad: \n"))
-
-                        vermenus(facultad)
+                        opcion=int(input("Seleccione una facultad o presione 9 para salir: \n"))
+                        if opcion==9:
+                            break
+                        else:
+                            vermenusfacultad(opcion)
 
                         menu=int(input("Seleccione un menú: \n"))
 
-                        mostrarmenu(menu)
+                        verdetallemenu(menu)
+
+                        print("1. Crear reseña\n")
+                        print("9. Salir\n")
 
                         opcionmenu=int(input("Seleccione una opcion: "))
 
@@ -48,18 +60,25 @@ def main():
 
                             texto=str(input("Ingrese comentario sobre el menú: \n"))
 
-                            puntuacion=int(input("Ingrese una puntuación del 1 al 5: \n"))
+                            puntuacion=str(input("Ingrese una puntuación del 1 al 5: \n"))
 
-                            crearreseña(texto,puntuacion,facultad)
+                            crearresena(puntuacion,texto,correo,opcionmenu)
 
                         elif opcion==9:
                             break
 
                     elif opcioncliente==2:
-                        mensaje=str(input("ingrese mensaje para el soporte tecnico: "))
-                        contactarsoportetecnico(mensaje,correo)
+                        mensaje=str(input("ingrese mensaje para el soporte tecnico o presione 9 para salir: "))
+                        if mensaje==9:
+                            break
+                        else:
+                            soporte(correo,mensaje)
+                        print("\n")
+
                     elif opcioncliente==9:
                         break
+
+
 
 
             elif log[0]==True and log[1]=='1':
